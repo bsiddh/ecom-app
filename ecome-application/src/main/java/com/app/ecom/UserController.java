@@ -12,26 +12,34 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/api/users")
+    @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers(){
         return new ResponseEntity<>(userService.fetchAllUsers(),HttpStatus.OK);
     }
 
-    @PostMapping("/api/users")
+    @PostMapping("/users")
     public ResponseEntity<String> createUsers(@RequestBody  User user){
         userService.addUsers(user);
         return ResponseEntity.ok("user added successfully");
     }
 
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<User> getUsers(@PathVariable Long id){
-        User user = userService.fetchUser(id);
-        if (user == null)
-       return    ResponseEntity.notFound().build();
-        return ResponseEntity.ok(user);
+        return userService.fetchUser(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<String> updateUsers(@RequestBody  User updatedUser,@PathVariable Long id){
+          boolean updated = userService.updateUser(id,updatedUser);
+          if (updated)
+              return ResponseEntity.ok("user updated successfully");
+        return ResponseEntity.notFound().build();
     }
 }
