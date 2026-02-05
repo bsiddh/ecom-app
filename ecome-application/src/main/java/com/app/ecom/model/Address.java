@@ -1,7 +1,9 @@
 package com.app.ecom.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "address_table")
 public class Address {
@@ -12,5 +14,6 @@ public class Address {
     private String city;
     private String country;
     private String zipcode;
+    private String state;
 
 }
