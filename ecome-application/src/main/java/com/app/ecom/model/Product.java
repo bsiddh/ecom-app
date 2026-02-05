@@ -1,6 +1,7 @@
 package com.app.ecom.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "product_table")
 @NoArgsConstructor
+@Data
 public class Product {
 
     @Id
@@ -19,7 +21,7 @@ public class Product {
     private String name;
     private String description;
     private BigDecimal price;
-    private Integer stockCategory;
+    private Integer stockQuantity;
     private String category;
     private String imageUrl;
     private Boolean active = true;
